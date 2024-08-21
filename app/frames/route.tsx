@@ -1,2 +1,13 @@
 /* eslint-disable react/jsx-key */
-export { GET, POST } from "@frames.js/render/next";
+
+import { Button } from "frames.js/next";
+import { frames } from "./frames";
+
+const handler = frames(async (ctx) => {
+  return {
+    image: <div>No contest selected</div>,
+  };
+});
+
+export const GET = handler;
+export const POST = handler;

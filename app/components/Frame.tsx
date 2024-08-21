@@ -76,7 +76,7 @@ export function Frame({
         ) : (
           <iframe
             className="w-full"
-            style={{ aspectRatio }}
+            // style={{ aspectRatio }}
             src={rendererUrl.toString()}
             title="Frames.fun (i)frame"
             referrerPolicy="no-referrer"

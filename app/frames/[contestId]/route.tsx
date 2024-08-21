@@ -29,7 +29,6 @@ const handler = async (
 
   return await frames(async (ctx) => {
     const query = ctx.searchParams;
-    console.log("query >> ", query);
     return {
       title: "Contest",
       image: (
