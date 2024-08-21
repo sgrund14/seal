@@ -18,7 +18,6 @@ export async function generateMetadata(): Promise<Metadata> {
 // This is a react server component only
 export default async function Home() {
   const contests = await kv.lrange("contests", 0, -1);
-  console.log("contests >> ", contests);
   const initContests = (
     await Promise.all(
       contests.map(async (contest) => {
@@ -32,3 +31,5 @@ export default async function Home() {
     <ContestsEntry initContests={initContests} />
   );
 }
+
+

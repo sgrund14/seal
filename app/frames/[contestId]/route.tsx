@@ -51,8 +51,6 @@ const handler = async (
     })(req);
   }
 
-  console.log("contest", contest);
-
   return await frames(async (ctx) => {
     return {
       title: "Contest",
