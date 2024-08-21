@@ -3,6 +3,7 @@ export type Contest = {
   description: string;
   id: string;
   image: string;
+  prizeAmount: number;
   endDate: string;
   options: string[];
 };

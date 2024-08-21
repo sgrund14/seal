@@ -1,13 +1,15 @@
 "use client";
 
-import { FC, useState } from "react";
+import { FC, useRef, useState } from "react";
 import { kv } from "@vercel/kv";
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "./Dialog";
 import { Button } from "./Button";
 import { Input } from "./Input";
 import { Loader } from "lucide-react";
-import { toast } from "sonner"
+import { toast } from "sonner";
 import { Textarea } from "./Textarea";
+import { PutBlobResult } from "@vercel/blob";
+import { upload } from "@vercel/blob/client";
 
 type Props = {
   onSuccess: () => void;
@@ -28,6 +30,26 @@ export const CreateDialog: FC<Props> = ({ onSuccess }) => {
     setOptions(newOptions);
   };
 
+  const [blob, setBlob] = useState<PutBlobResult | null>(null);
+
+  const handleImageUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      try {
+        const response = await upload(file.name, file, {
+          access: "public",
+          handleUploadUrl: "/api/upload",
+        });
+        setBlob(response);
+      } catch (error) {
+        console.error("Error uploading image:", error);
+        // Handle error (e.g., show error message to user)
+      }
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -40,6 +62,7 @@ export const CreateDialog: FC<Props> = ({ onSuccess }) => {
       endDate,
       prizeAmount,
       options,
+      image: blob?.url,
     };
     await kv.set(`contest:${contest.id}`, contest);
     await kv.lpush("contests", contest.id);
@@ -61,10 +84,8 @@ export const CreateDialog: FC<Props> = ({ onSuccess }) => {
       <DialogTrigger asChild>
         <Button>Create New Contest</Button>
       </DialogTrigger>
-      <DialogContent>
-        <DialogTitle>
-          New Contest
-        </DialogTitle>
+      <DialogContent className="max-h-[90vh] overflow-y-auto">
+        <DialogTitle>New Contest</DialogTitle>
         <form
           className="space-y-4 flex flex-col gap-2 items-center"
           onSubmit={handleSubmit}
@@ -105,6 +126,32 @@ export const CreateDialog: FC<Props> = ({ onSuccess }) => {
 
           <div className="w-full grid gap-2">
             <label
+              htmlFor="contestImage"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Contest Image
+            </label>
+            <Input
+              type="file"
+              id="contestImage"
+              name="contestImage"
+              accept="image/*"
+              onChange={handleImageUpload}
+            />
+            {blob && (
+              <div className="max-w-[200px] max-h-[200px]">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={blob.url}
+                  alt="Contest preview"
+                  className="h-full w-full object-cover"
+                />
+              </div>
+            )}
+          </div>
+
+          <div className="w-full grid gap-2">
+            <label
               htmlFor="endDate"
               className="block text-sm font-medium text-gray-700"
             >
@@ -133,7 +180,7 @@ export const CreateDialog: FC<Props> = ({ onSuccess }) => {
               min="0"
               step="0.01"
               value={prizeAmount}
-              placeholder="Enter prize amount..."
+              placeholder="Enter prize amount in USD..."
               onChange={(e) => setPrizeAmount(e.target.value)}
             />
           </div>

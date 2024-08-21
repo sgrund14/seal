@@ -5,6 +5,7 @@ import { kv } from "@vercel/kv";
 
 import { Contest } from "../../types";
 import { NextRequest } from "next/server";
+import { appURL } from "../../utils";
 
 const handler = async (
   req: NextRequest,
@@ -26,18 +27,53 @@ const handler = async (
       };
     })(req);
   }
+  const endDate = new Date(contest.endDate);
+  const now = new Date();
+  const isContestOver = endDate < now;
+  if (isContestOver) {
+    return await frames(async (ctx) => {
+      return {
+        title: "Contest is over",
+        image: (
+          <div tw="flex flex-col">
+            <div tw="flex">Contest is over</div>
+          </div>
+        ),
+        buttons: [
+          <Button action="link" target={`${appURL()}`}>
+            Create new contest
+          </Button>,
+          <Button action="post" target={{ pathname: `/results/${contest.id}` }}>
+            View results
+          </Button>,
+        ],
+      };
+    })(req);
+  }
+
+  console.log("contest", contest);
 
   return await frames(async (ctx) => {
     return {
       title: "Contest",
       image: (
-        <div tw="flex flex-col">
-          <div tw="flex">{contest.title}</div>
-          {contest.description && <div tw="flex">{contest.description}</div>}
+        <div
+          tw="flex flex-col p-12 text-center items-center justify-center w-full h-full"
+          style={{
+            backgroundImage: `url(${contest.image})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
+          <div tw="flex flex-col bg-white/80 p-12 rounded-lg">
+            <div tw="flex text-4xl">{contest.title}</div>
+            {contest.description && (
+              <div tw="flex mt-8 text-3xl">{contest.description}</div>
+            )}
+            <div tw="flex mt-8 text-3xl">{`Prize: $${contest.prizeAmount}`}</div>
+          </div>
         </div>
       ),
-      textInput:
-        ctx.searchParams.action === "create" ? "Contest name" : undefined,
       buttons: contest.options.filter(Boolean).map((option, index) => (
         <Button
           action="post"
