@@ -1,17 +1,17 @@
-import { headers } from "next/headers";
+// import { headers } from "next/headers";
 
-export function currentURL(pathname: string): URL {
-  try {
-    const headersList = headers();
-    const host = headersList.get("x-forwarded-host") || headersList.get("host");
-    const protocol = headersList.get("x-forwarded-proto") || "http";
+// export function currentURL(pathname: string): URL {
+//   try {
+//     const headersList = headers();
+//     const host = headersList.get("x-forwarded-host") || headersList.get("host");
+//     const protocol = headersList.get("x-forwarded-proto") || "http";
 
-    return new URL(pathname, `${protocol}://${host}`);
-  } catch (error) {
-    console.error(error);
-    return new URL("http://localhost:3000");
-  }
-}
+//     return new URL(pathname, `${protocol}://${host}`);
+//   } catch (error) {
+//     console.error(error);
+//     return new URL("http://localhost:3000");
+//   }
+// }
 
 export function appURL() {
   if (process.env.APP_URL) {

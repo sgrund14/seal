@@ -22,27 +22,6 @@ async function getOpenPort(port) {
   return port;
 }
 
-/**
- * @param {number} port
- * @returns {Promise<{ title: string; url: string; }[]>}
- */
-async function getExamplesFromDirectory(port) {
-  const currentDirectory = dirname(fileURLToPath(import.meta.url));
-  const examplesDirectory = resolve(currentDirectory, "../app/examples");
-
-  const foundDirectoriesAndFilesInExamplesDirectory = await readdir(
-    examplesDirectory,
-    { withFileTypes: true }
-  );
-  const exampleDirectories = foundDirectoriesAndFilesInExamplesDirectory
-    .filter((dirent) => dirent.isDirectory())
-    .map((dirent) => dirent.name);
-
-  return exampleDirectories.map((example) => ({
-    title: snakeCaseToTitleCase(example),
-    url: `http://localhost:${port}/examples/${example}`,
-  }));
-}
 
 const nextPort = await getOpenPort(3000);
 const debuggerPort = await getOpenPort(3010);
@@ -57,9 +36,6 @@ process.env.APP_URL = `http://localhost:${nextPort}`;
 if (!process.env.FJS_MONOREPO) {
   const url = `http://localhost:${nextPort}`;
 
-  const examples = await getExamplesFromDirectory(nextPort);
-
-  process.env.DEBUGGER_EXAMPLES_JSON = JSON.stringify(examples);
 
   command = "concurrently";
   args = [
