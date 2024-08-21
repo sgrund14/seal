@@ -60,10 +60,10 @@ export function Frame({
   return (
     <div className="flex mt-2">
       <div className="w-full max-w-[600px] mx-auto space-y-2">
-        <div className="flex justify-between items-center">
+        {/* <div className="flex justify-between items-center">
           <h1 className="font-semibold">{getTitle(metadata)}</h1>
           <DebugLink url={url} />
-        </div>
+        </div> */}
         {process.env.NODE_ENV === "development" ? (
           <div
             className="flex w-full bg-slate-100 rounded items-center justify-center"

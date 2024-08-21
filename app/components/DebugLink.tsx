@@ -27,7 +27,7 @@ export function DebugLink({ url }: DebugLinkProps) {
   }, [url]);
 
   return (
-    <Link className="underline" href={href}>
+    <Link className="underline text-sm" href={href}>
       Debug
     </Link>
   );

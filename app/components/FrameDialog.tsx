@@ -1,8 +1,9 @@
 import { FC } from "react";
-import { Dialog, DialogTrigger, DialogContent } from "./Dialog";
+import { Dialog, DialogTrigger, DialogContent, DialogTitle } from "./Dialog";
 import { Contest } from "../types";
 import { Frame } from "./Frame";
 import { createExampleURL } from "../utils";
+import { DebugLink } from "./DebugLink";
 
 type Props = {
   contest: Contest;
@@ -15,8 +16,15 @@ const FrameDialog: FC<Props> = ({ contest }) => {
         {contest.title}
       </DialogTrigger>
       <DialogContent className="pt-10">
+        <DialogTitle className="flex justify-between">
+          <span>{contest.title}</span>
+        </DialogTitle>
         <Frame
-          metadata={{ title: contest.title, description: contest.description, other: {} }}
+          metadata={{
+            title: contest.title,
+            description: contest.description,
+            other: {},
+          }}
           url={createExampleURL(`/frames/${contest.id}`)}
         />
       </DialogContent>

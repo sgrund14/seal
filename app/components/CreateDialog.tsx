@@ -2,7 +2,7 @@
 
 import { FC, useState } from "react";
 import { kv } from "@vercel/kv";
-import { Dialog, DialogContent, DialogTrigger } from "./Dialog";
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "./Dialog";
 import { Button } from "./Button";
 import { Input } from "./Input";
 import { Loader } from "lucide-react";
@@ -62,6 +62,9 @@ export const CreateDialog: FC<Props> = ({ onSuccess }) => {
         <Button>Create New Contest</Button>
       </DialogTrigger>
       <DialogContent>
+        <DialogTitle>
+          New Contest
+        </DialogTitle>
         <form
           className="space-y-4 flex flex-col gap-2 items-center"
           onSubmit={handleSubmit}
