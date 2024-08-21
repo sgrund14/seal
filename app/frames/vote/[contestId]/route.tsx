@@ -42,8 +42,17 @@ const handler = async (
         return {
           title: `Vote for ${contest.title}`,
           image: (
-            <div tw="flex flex-col">
-              <div tw="flex">{`You have already voted: ${userVotes?.[contestId]}`}</div>
+            <div
+              tw="flex flex-col p-12 text-center items-center justify-center w-full h-full"
+              style={{
+                backgroundImage: `url(${contest.image})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+            >
+              <div tw="flex flex-col bg-white/80 items-center p-12 rounded-lg">
+                <div tw="flex">{`You have already voted: ${userVotes?.[contestId]}`}</div>
+              </div>
             </div>
           ),
           buttons: [
