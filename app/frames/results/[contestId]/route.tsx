@@ -14,9 +14,6 @@ const handler = async (
   const contest = await kv.get(`contest:${contestId}`) as Contest | null;
   const contestVotes = await kv.hgetall(`contest:${contestId}:votes`) as ContestVotes | null;
 
-  console.log("votes >> ", contestVotes);
-  console.log("contest >> ", contest);
-
   if (!contestVotes || !contest) {
     return await frames(async (ctx) => {
       return {
@@ -35,11 +32,13 @@ const handler = async (
     return {
       title: `${contest.title} results`,
       image: (
-        <div tw="flex flex-col">
-          <div tw="flex">{`Results`}</div>
-          {contest.options.filter(Boolean).map((option, index) => (
-            <div tw="flex">{`${option}: ${contestVotes[option] || 0}`}</div>
-          ))}
+        <div tw="flex flex-col gap-4">
+          <div tw="flex mb-4">{`Results`}</div>
+          <ul tw="flex flex-col gap-2">
+            {contest.options.filter(Boolean).map((option, index) => (
+              <li tw="flex">{`${option}: ${contestVotes[option] || 0}`}</li>
+            ))}
+          </ul>
         </div>
       ),
       buttons: [

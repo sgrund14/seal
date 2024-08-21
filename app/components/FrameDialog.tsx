@@ -3,7 +3,6 @@ import { Dialog, DialogTrigger, DialogContent, DialogTitle } from "./Dialog";
 import { Contest } from "../types";
 import { Frame } from "./Frame";
 import { createExampleURL } from "../utils";
-import { DebugLink } from "./DebugLink";
 
 type Props = {
   contest: Contest;

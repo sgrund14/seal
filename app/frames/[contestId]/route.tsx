@@ -11,7 +11,7 @@ const handler = async (
   { params }: { params: { contestId: string } }
 ) => {
   const contestId = params.contestId;
-  const contest = await kv.get(`contest:${contestId}`) as Contest | null;
+  const contest = (await kv.get(`contest:${contestId}`)) as Contest | null;
 
   if (!contest) {
     // return nextjs not found
@@ -28,12 +28,12 @@ const handler = async (
   }
 
   return await frames(async (ctx) => {
-    const query = ctx.searchParams;
     return {
       title: "Contest",
       image: (
         <div tw="flex flex-col">
           <div tw="flex">{contest.title}</div>
+          {contest.description && <div tw="flex">{contest.description}</div>}
         </div>
       ),
       textInput:
