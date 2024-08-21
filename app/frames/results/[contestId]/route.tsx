@@ -41,7 +41,7 @@ const handler = async (
             backgroundPosition: "center",
           }}
         >
-          <div tw="flex flex-col bg-white/80 p-12 rounded-lg">
+          <div tw="flex flex-col items-center bg-white/80 p-12 rounded-lg">
             <div tw="flex mb-4">{`Results`}</div>
             <ul tw="flex flex-col gap-2">
               {contest.options.filter(Boolean).map((option, index) => (

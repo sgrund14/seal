@@ -86,7 +86,7 @@ const handler = async (
             backgroundPosition: "center",
           }}
         >
-          <div tw="flex flex-col bg-white/80 p-12 rounded-lg">
+          <div tw="flex flex-col bg-white/80 items-center p-12 rounded-lg">
             <div tw="flex text-4xl">{`You voted: ${query.option}`}</div>
           </div>
         </div>
