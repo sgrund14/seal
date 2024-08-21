@@ -20,7 +20,7 @@ function getAspectRatio(metadata: Metadata): string {
   let [width, height] = (
     frame["fc:frame:image:aspect_ratio"] ??
     frame["of:image:aspect_ratio"] ??
-    "1.91:1"
+    "600:360"
   )
     .split(":")
     .map(Number);
