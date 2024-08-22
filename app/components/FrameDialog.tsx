@@ -3,6 +3,7 @@ import { Dialog, DialogTrigger, DialogContent, DialogTitle } from "./Dialog";
 import { Contest } from "../types";
 import { Frame } from "./Frame";
 import { createExampleURL } from "../utils";
+import { Button } from "./Button";
 
 type Props = {
   contest: Contest;
@@ -26,6 +27,19 @@ const FrameDialog: FC<Props> = ({ contest }) => {
           }}
           url={createExampleURL(`/frames/${contest.id}`)}
         />
+        <Button
+          onClick={() => {
+            window.open(
+              `https://warpcast.com/~/compose?embeds[]=${createExampleURL(
+                `/frames/${contest.id}`
+              )}`,
+              "_blank"
+            );
+          }}
+          className="m-auto"
+        >
+          Post to Warpcast
+        </Button>
       </DialogContent>
     </Dialog>
   );

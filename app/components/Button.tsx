@@ -6,9 +6,13 @@ type ButtonProps = {
   className?: string;
   type?: "button" | "submit" | "reset";
   disabled?: boolean;
+  onClick?: () => void;
 };
 
-export const Button: FC<ButtonProps> = forwardRef<HTMLButtonElement, ButtonProps>(({ children, className, type = "button", ...props }, ref) => {
+export const Button: FC<ButtonProps> = forwardRef<
+  HTMLButtonElement,
+  ButtonProps
+>(({ children, className, type = "button", ...props }, ref) => {
   return (
     <button
       ref={ref}
